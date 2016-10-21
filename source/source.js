@@ -10,6 +10,8 @@ var cob;
 var vPosition;
 var vColor;
 
+var vertices = []; //Almacenamos los puntos para graficar bezier;
+
 var tetaX = 0;
 var matRotX = getMatrizIdentidad();
 
@@ -59,20 +61,7 @@ function render(){
 
   puntos = [];
   getEjes();
-    puntos.push(vec4(0.1, 0.1, 0.0, 1.0));
-    colores.push(vec4(1, 1, 1, 1.0));
-    puntos.push(vec4(0.4, 0.9, 0.0, 1.0));
-    colores.push(vec4(1, 1, 1, 1.0));
-    puntos.push(vec4(0.8, 0.2, 0.0, 1.0));
-    colores.push(vec4(1, 1, 1, 1.0));
-    puntos.push(vec4(-0.5, -0.2, 0.0, 1.0));
-    colores.push(vec4(1, 1, 1, 1.0));
-
-
-    bezier([vec4(0.1, 0.1, 0.0, 1.0),
-            vec4(0.4, 0.9, 0.0, 1.0),
-            vec4(0.8, 0.2, 0.0, 1.0),
-            vec4(-0.5, -0.2, 0.0, 1.0)]);
+    bezier(vertices);
   //console.log(puntos);
   puntos = rotarX(puntos);
   puntos = rotarY(puntos);
@@ -144,6 +133,7 @@ function eventos(){
     canvas.addEventListener('click', function (e) {
         var mouse = onClikCanvas(e);
         console.log(mouse.x + ', ' + mouse.y);
+        vertices.push(vec4(mouse.x, mouse.y, 0.0, 1.0));
         render();
     });
 
@@ -258,16 +248,17 @@ function setScaleScreen() {
 
 
 function bezier(points){//llega como argumento el conjunto de puntos.
-    var x, y, z;
+    if(points.length != 0 && points.length != 1){
+        var x, y, z;
 
-    for(var t = 0; t<=1; t += 0.01){
-        x = B(points, t, 'x');
-        y = B(points, t, 'y');
-        z = B(points, t, 'z');
+        for(var t = 0; t<=1; t += 0.01){
+            x = B(points, t, 'x');
+            y = B(points, t, 'y');
+            z = B(points, t, 'z');
 
-        puntos.push(vec4(x, y, z, 1.0));
-        colores.push(vec4(1.0, 1.0, 1.0, 1.0));
-        //console.log(x + ', ' + y + ', ', z);
+            puntos.push(vec4(x, y, z, 1.0));
+            colores.push(vec4(1.0, 1.0, 1.0, 1.0));
+        }
     }
 }
 
