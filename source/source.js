@@ -17,10 +17,6 @@ var matRotX = getMatrizIdentidad();
 var tetaY = 0;
 var matRotY = getMatrizIdentidad();
 
-var tetaZ = 0;
-var matRotZ = getMatrizIdentidad();
-
-
 window.onload = function main(){
     //alert(combinatoria(5, 0));
     //alert(bernstein(5, 0, 3));
@@ -182,21 +178,6 @@ function rotarY(vertices){
   return puntosRotados;
 }
 
-function rotarZ(vertices){
-  var puntosRotados = [];
-  var x; var y; var z;
-  //alert("rotar1");
-  for(var i = 0; i < vertices.length; i++){
-    x = matRotZ[0][0]*vertices[i][0] + matRotZ[0][1]*vertices[i][1] + matRotZ[0][2]*vertices[i][2] + matRotZ[0][3]*vertices[i][3];
-    y = matRotZ[1][0]*vertices[i][0] + matRotZ[1][1]*vertices[i][1] + matRotZ[1][2]*vertices[i][2] + matRotZ[1][3]*vertices[i][3];
-    z = matRotZ[2][0]*vertices[i][0] + matRotZ[2][1]*vertices[i][1] + matRotZ[2][2]*vertices[i][2] + matRotZ[2][3]*vertices[i][3];
-    //alert(x+","+ y+","+ z);
-    puntosRotados.push(vec4(x, y, z, 1));
-  }
-  return puntosRotados;
-}
-
-
 function getEjes(){
   puntos = [];
   colores = [];
@@ -224,46 +205,38 @@ function getMatrizIdentidad(){
       vec4(0.0, 0.0, 0.0, 1.0)];
 }
 
-/*function factorial(num)
-{
-    if (num == 0)
-      { return 1; }
-    else
-      { return num * factorial( num - 1 ); }
-}
-
-function combinatoria(n, i){
-  if(i >= 0 && i <= n ){
-    return (factorial(n)/(factorial(i) * factorial(n-i)));
-  }else {
-    return 0;
-  }
-}
-
-function bernstein(n, i, t){ //B[n,i](t)
-  return combinatoria(n, i) * Math.pow(t, i) * Math.pow( (1 - t), (n - i));
-}*/
-
 
 /**
  * @return {number}
  */
 function B(points, t, eje) {
-    if(points.length == 1){
-        switch (eje){
-            case 'x':   return points[0][0];break;
-            case 'y':   return points[0][1];break;
-            case 'z':   return points[0][2];break;
+    if (points.length != 1) {
+        switch (eje) {
+            case 'x':
+                return (1 - t) * B(points.slice(0, points.length - 1), t, 'x') + t * B(points.slice(1, points.length), t, 'x');
+                break;
+            case 'y':
+                return (1 - t) * B(points.slice(0, points.length - 1), t, 'y') + t * B(points.slice(1, points.length), t, 'y');
+                break;
+            case 'z':
+                return (1 - t) * B(points.slice(0, points.length - 1), t, 'z') + t * B(points.slice(1, points.length), t, 'z');
+                break;
         }
-    }
-    else{
-        switch (eje){
-            case 'x':   return (1-t)*B(points.slice(0,points.length-1), t, 'x') + t * B(points.slice(1, points.length), t, 'x');break;
-            case 'y':   return (1-t)*B(points.slice(0,points.length-1), t, 'y') + t * B(points.slice(1, points.length), t, 'y');break;
-            case 'z':   return (1-t)*B(points.slice(0,points.length-1), t, 'z') + t * B(points.slice(1, points.length), t, 'z');break;
+    } else {
+        switch (eje) {
+            case 'x':
+                return points[0][0];
+                break;
+            case 'y':
+                return points[0][1];
+                break;
+            case 'z':
+                return points[0][2];
+                break;
         }
     }
 }
+
 
 function bezier(points){//llega como argumento el conjunto de puntos.
     var x, y, z;
