@@ -18,18 +18,14 @@ var tetaY = 0;
 var matRotY = getMatrizIdentidad();
 
 window.onload = function main(){
-    //alert(combinatoria(5, 0));
-    //alert(bernstein(5, 0, 3));
   canvas = document.getElementById('lienzo');
   if(!canvas){alert("Canvas no esta disponible");}
 
-  //...Canvas Tamaño.....
-  canvas.width = 600;
-  canvas.height = 600;
-  //.....................
 
   gl = getWebGLContext(canvas);
   if(!gl){alert("WebGL no esta disponible");}
+
+  setScaleScreen();
 
   //Tamaño del viewport
   gl.viewport(0, 0, canvas.width, canvas.height);
@@ -236,6 +232,23 @@ function B(points, t, eje) {
         }
     }
 }
+
+/*
+* Función que setea al canvas en fullscreen
+* encuantra la escala
+*/
+function setScaleScreen() {
+    var scale = Math.min(window.innerHeight/canvas.height, window.innerWidth/canvas.width);
+    canvas.style.width = (canvas.width * scale) + 'px';
+    canvas.style.height = (canvas.height * scale) + 'px';
+    canvas.style.position = 'fixed';
+    canvas.style.left = '0%';
+    canvas.style.top = '50%';
+    canvas.style.marginLeft = '0px';
+    canvas.style.marginTop = -(canvas.height * scale) / 2 + 'px';
+}
+
+
 
 
 function bezier(points){//llega como argumento el conjunto de puntos.
