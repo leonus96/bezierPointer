@@ -10,7 +10,6 @@ var cob;
 var vPosition;
 var vColor;
 
-
 var tetaX = 0;
 var matRotX = getMatrizIdentidad();
 
@@ -142,6 +141,12 @@ function eventos(){
   }, false);
   //.......................................
 
+    canvas.addEventListener('click', function (e) {
+        var mouse = onClikCanvas(e);
+        console.log(mouse.x + ', ' + mouse.y);
+        render();
+    });
+
   render();
 }
 
@@ -234,8 +239,9 @@ function B(points, t, eje) {
 }
 
 /*
-* Función que setea al canvas en fullscreen
-* encuantra la escala
+* Función que setea al canvas a la izquierda
+* encuantra la escala menor y setea
+* arregla los margenes
 */
 function setScaleScreen() {
     var scale = Math.min(window.innerHeight/canvas.height, window.innerWidth/canvas.width);
@@ -261,6 +267,23 @@ function bezier(points){//llega como argumento el conjunto de puntos.
 
         puntos.push(vec4(x, y, z, 1.0));
         colores.push(vec4(1.0, 1.0, 1.0, 1.0));
-        console.log(x + ', ' + y + ', ', z);
+        //console.log(x + ', ' + y + ', ', z);
     }
+}
+
+
+/*
+* Funcion que se ejecuta cuando se ace un click en la pantalla
+* retorna coordenadas cartesianas x e y
+*/
+
+function onClikCanvas(e) {
+    mousePos = {
+        x: e.clientX,
+        y: e.clientY
+    };
+
+    mousePos = convAWebGLCoordenadas(canvas, mousePos);
+
+    return mousePos;
 }
