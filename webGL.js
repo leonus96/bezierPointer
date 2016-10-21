@@ -16,9 +16,9 @@ function getWebGLContext(canvas){
 
 function convAWebGLCoordenadas(canvas, mousePos){
   return{
-    x: mousePos.x*2/canvas.width - 1,
+    x: (mousePos.x*2/canvas.width) - 1,
 
-    y: (canvas.height - mousePos.y)*2/canvas.height -1
+    y: ((canvas.height - mousePos.y)*2/canvas.height) -1
   }
 }
 

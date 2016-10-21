@@ -79,9 +79,7 @@ function render(){
 
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.LINES, 0, 6);
-    gl.drawArrays(gl.POINTS, 6, 3);
-
-  gl.drawArrays(gl.POINTS, 9, puntos.length-9);
+      gl.drawArrays(gl.POINTS, 6, puntos.length-6);
 
 }
 
@@ -245,8 +243,10 @@ function setScaleScreen() {
 }
 
 
-
-
+/*
+* Algoritmo recursivo de Bezier
+* recursividad aplicada en el polinomio de Bernstein
+*/
 function bezier(points){//llega como argumento el conjunto de puntos.
     if(points.length != 0 && points.length != 1){
         var x, y, z;
@@ -267,13 +267,12 @@ function bezier(points){//llega como argumento el conjunto de puntos.
 * Funcion que se ejecuta cuando se ace un click en la pantalla
 * retorna coordenadas cartesianas x e y
 */
-
 function onClikCanvas(e) {
+    var ClientRect = canvas.getBoundingClientRect();
     mousePos = {
-        x: e.clientX,
-        y: e.clientY
+        x: e.clientX - ClientRect.left,
+        y: e.clientY - ClientRect.top
     };
-
     mousePos = convAWebGLCoordenadas(canvas, mousePos);
 
     return mousePos;
