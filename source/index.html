@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>::Bezier::</title>
+  <style media="screen">
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    border: 0;
+    overflow: hidden; /*  Disable scrollbars */
+    display: block;  /* No floating content on sides */
+  }
+  </style>
+  <script type="x-shader/x-vertex" id = "vertexShader">
+    attribute vec4 vPosition;
+    attribute vec4 aVertexColor;
+
+    varying lowp vec4 vColor;
+
+    void main(){
+      gl_PointSize = 1.0;
+      gl_Position = vPosition;
+      vColor = aVertexColor;
+    }
+  </script>
+  <script type="x-shader/x-vertex" id = "fragmentShader">
+    precision mediump float;
+    varying lowp vec4 vColor;
+
+    void main(){
+      gl_FragColor = vColor;
+    }
+  </script>
+</head>
+<body>
+    <canvas id="lienzo" width="600px" height="600px">
+      Ups! Su navegador no soporta HTML5, actualizalo!
+    </canvas>
+  <script src="../initShaders.js" charset="utf-8"></script><!--Para los shaders-->
+  <script src="../webGL.js" charset="utf-8"></script><!--Utilidades de Webgl-->
+  <script src="../MV.js" charset="utf-8"></script><!--Libreria geometrica-->
+  <script src="source.js" charset="utf-8"></script><!--Codigo fuente de javascrit-->
+</body>
+</html>
